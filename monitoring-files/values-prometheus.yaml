@@ -1,0 +1,29 @@
+server:
+  enabled: true
+    
+  persistentVolume:
+    enabled: false
+    accessModes:
+      - ReadWriteOnce
+    storageClassName: my-storage-class
+    size: 100Gi
+  replicaCount: 1
+
+service:
+  type: NodePort
+  port: 80
+
+  ## Prometheus data retention period (default if not specified is 15 days)
+  ##
+  retention: "15d"
+
+alertmanager:
+  alertmanagerSpec:
+    storage:
+      volumeClaimTemplate:
+        spec:
+          accessModes: ["ReadWriteOnce"]
+          resources:
+            requests:
+              storage: 10Gi
+          storageClassName: my-storage-class  # 사용 중인 스토리지 클래스 이름으로 대체
